@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "KpiSample",
+  "description": "One per-cell, per-interval KPI report. Identical contract for the simulated generator and any future real OSS northbound feed. Draft-04 only (no if/then/else, no unevaluatedProperties) so this validates as-is via an API Gateway REQUEST model.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "cell_id",
+    "timestamp",
+    "prb_utilization_dl",
+    "prb_utilization_ul",
+    "rrc_connected_users",
+    "dl_throughput_mbps",
+    "ul_throughput_mbps",
+    "rsrp_dbm",
+    "rsrq_db",
+    "sinr_db",
+    "handover_success_rate",
+    "call_drop_rate",
+    "prach_attempts"
+  ],
+  "properties": {
+    "cell_id": {
+      "type": "string",
+      "description": "Unique cell identifier, e.g. site+sector encoded (CELL-0001-A3).",
+      "pattern": "^[A-Za-z0-9_-]{1,64}$"
+    },
+    "timestamp": {
+      "type": "integer",
+      "description": "Sample collection time, UTC epoch milliseconds.",
+      "minimum": 0
+    },
+    "prb_utilization_dl": {
+      "type": "number",
+      "description": "Downlink PRB utilization, percent.",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "prb_utilization_ul": {
+      "type": "number",
+      "description": "Uplink PRB utilization, percent.",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "rrc_connected_users": {
+      "type": "integer",
+      "description": "Count of RRC-connected users on the cell.",
+      "minimum": 0
+    },
+    "dl_throughput_mbps": {
+      "type": "number",
+      "description": "Downlink throughput, Mbps.",
+      "minimum": 0
+    },
+    "ul_throughput_mbps": {
+      "type": "number",
+      "description": "Uplink throughput, Mbps.",
+      "minimum": 0
+    },
+    "rsrp_dbm": {
+      "type": "number",
+      "description": "Reference Signal Received Power, dBm (3GPP range).",
+      "minimum": -140,
+      "maximum": -44
+    },
+    "rsrq_db": {
+      "type": "number",
+      "description": "Reference Signal Received Quality, dB.",
+      "minimum": -19.5,
+      "maximum": -3
+    },
+    "sinr_db": {
+      "type": "number",
+      "description": "Signal-to-Interference-plus-Noise Ratio, dB.",
+      "minimum": -20,
+      "maximum": 30
+    },
+    "handover_success_rate": {
+      "type": "number",
+      "description": "Handover success rate over the interval, percent.",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "call_drop_rate": {
+      "type": "number",
+      "description": "Call/session drop rate over the interval, percent.",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "prach_attempts": {
+      "type": "integer",
+      "description": "PRACH attempt count over the interval.",
+      "minimum": 0
+    }
+  }
+}

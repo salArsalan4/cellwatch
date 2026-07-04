@@ -1,0 +1,42 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadKpiTable",
+      "Effect": "Allow",
+      "Action": "dynamodb:Query",
+      "Resource": "arn:aws:dynamodb:REGION:ACCOUNT_ID:table/cellwatch-kpi"
+    },
+    {
+      "Sid": "ReadRdsSecret",
+      "Effect": "Allow",
+      "Action": "secretsmanager:GetSecretValue",
+      "Resource": "arn:aws:secretsmanager:REGION:ACCOUNT_ID:secret:rds!db-*"
+    },
+    {
+      "Sid": "VpcEniManagement",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:CreateNetworkInterface",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:DeleteNetworkInterface",
+        "ec2:AssignPrivateIpAddresses",
+        "ec2:UnassignPrivateIpAddresses"
+      ],
+      "Resource": "*",
+      "_comment": "AWS's VPC-Lambda ENI permissions can't be scoped to a resource ARN -- this is the same shape AWSLambdaVPCAccessExecutionRole grants."
+    },
+    {
+      "Sid": "XRayTracing",
+      "Effect": "Allow",
+      "Action": ["xray:PutTraceSegments", "xray:PutTelemetryRecords"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "WriteOwnLogs",
+      "Effect": "Allow",
+      "Action": ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"],
+      "Resource": "arn:aws:logs:REGION:ACCOUNT_ID:log-group:/aws/lambda/cellwatch-query:*"
+    }
+  ]
+}

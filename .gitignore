@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+*.zip
+.env
+.DS_Store
+infra/build/
+out.json
+_old_account_state_backup/

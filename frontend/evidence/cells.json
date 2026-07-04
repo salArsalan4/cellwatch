@@ -1,0 +1,202 @@
+[
+  {
+    "id": "CELL-0000",
+    "site": "Site-000",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 1,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0001",
+    "site": "Site-000",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 2,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0002",
+    "site": "Site-000",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 3,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0003",
+    "site": "Site-000",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 4,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0004",
+    "site": "Site-001",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 1,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0005",
+    "site": "Site-001",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 2,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0006",
+    "site": "Site-001",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 3,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0007",
+    "site": "Site-001",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 4,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0008",
+    "site": "Site-002",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 1,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0009",
+    "site": "Site-002",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 2,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0010",
+    "site": "Site-002",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 3,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0011",
+    "site": "Site-002",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 4,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0012",
+    "site": "Site-003",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 1,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0013",
+    "site": "Site-003",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 2,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0014",
+    "site": "Site-003",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 3,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0015",
+    "site": "Site-003",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 4,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0016",
+    "site": "Site-004",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 1,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0017",
+    "site": "Site-004",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 2,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0018",
+    "site": "Site-004",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 3,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  },
+  {
+    "id": "CELL-0019",
+    "site": "Site-004",
+    "latitude": null,
+    "longitude": null,
+    "band": "n78",
+    "sector": 4,
+    "status": "active",
+    "created_at": "2026-07-04T22:34:58.621962+00:00"
+  }
+]
