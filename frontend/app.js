@@ -1,4 +1,4 @@
-// CellWatch dashboard — vanilla JS, no build step, no framework.
+// CellWatch dashboard; vanilla JS, no build step, no framework.
 //
 // The app is a "query" over the fleet: pick one or more cells (top-left) and a
 // set of KPIs (top-right), and the centre stage fills with one small-multiple
@@ -105,7 +105,6 @@ const state = {
   cellColor: new Map(),            // cellId -> hex, stable while selected
   colorInUse: new Array(MAX_CELLS).fill(null), // slot -> cellId (stable colors)
   enabledKpis: new Set(KPI_FIELDS.map((f) => f.key)), // all on by default
-  alertsFilter: "active",
   cellMenuOpen: false,
 };
 
@@ -114,7 +113,7 @@ const el = (id) => document.getElementById(id);
 // ---------------------------------------------------------------- color slots
 
 // Assign the lowest free palette slot so a cell keeps its color for as long as
-// it stays selected — removing one cell never repaints the survivors (the
+// it stays selected; removing one cell never repaints the survivors (the
 // dataviz rule: color follows the entity, not its rank).
 function assignColor(cellId) {
   if (state.cellColor.has(cellId)) return state.cellColor.get(cellId);
@@ -170,12 +169,12 @@ function deselectCell(cellId) {
 // ---------------------------------------------------------------- formatting
 
 function fmtValue(value, unit) {
-  if (value === null || value === undefined || Number.isNaN(value)) return "—";
+  if (value === null || value === undefined || Number.isNaN(value)) return "–";
   const n = typeof value === "number" ? (Number.isInteger(value) ? value : value.toFixed(1)) : value;
   return unit ? `${n} ${unit}` : `${n}`;
 }
 function fmtNum(value) {
-  if (value === null || value === undefined || Number.isNaN(value)) return "—";
+  if (value === null || value === undefined || Number.isNaN(value)) return "–";
   return Number.isInteger(value) ? String(value) : value.toFixed(1);
 }
 
@@ -214,7 +213,7 @@ function renderCellMenu() {
   const query = el("cell-search").value.trim().toLowerCase();
   const atCap = state.selectedCells.length >= MAX_CELLS;
   el("cell-cap-note").hidden = !atCap;
-  el("cell-cap-note").textContent = atCap ? `Comparing the max of ${MAX_CELLS} cells — remove one to add another.` : "";
+  el("cell-cap-note").textContent = atCap ? `Comparing the max of ${MAX_CELLS} cells; remove one to add another.` : "";
 
   list.innerHTML = "";
   const matches = state.cells.filter((c) => {
@@ -294,12 +293,9 @@ function renderFleet() {
   rows.innerHTML = "";
   el("fleet-count").textContent = `${state.cells.length}`;
 
-  let healthy = 0, unhealthy = 0;
   for (const cell of state.cells) {
     const health = state.healthByCell.get(cell.id);
     const status = statusInfo(health);
-    if (status.cls === "status-healthy") healthy++;
-    else if (status.cls.startsWith("status-degraded")) unhealthy++;
 
     const selected = state.selectedCells.includes(cell.id);
     const color = selected ? state.cellColor.get(cell.id) : null;
@@ -315,13 +311,11 @@ function renderFleet() {
       <td><span class="fleet-cell-id"><span class="row-swatch${color ? "" : " is-empty"}"
             style="${color ? `background:${color}` : ""}"></span>${cell.id}</span></td>
       <td>${cell.site}</td>
-      <td>${cell.sector ?? "—"}</td>
+      <td>${cell.sector ?? "–"}</td>
       <td><span class="status-pill ${status.cls}" title="${status.text}">${shortStatus}</span></td>
     `;
     rows.appendChild(tr);
   }
-  el("fleet-summary").innerHTML =
-    `<strong>${healthy}</strong> healthy · <strong>${unhealthy}</strong> degraded`;
 }
 
 // ---------------------------------------------------------------- sidebar: alerts
@@ -359,10 +353,11 @@ function renderAlertItem(alert) {
 async function renderAlertsFeed() {
   const list = el("alerts-feed");
   list.innerHTML = '<li class="loading-row">Loading…</li>';
-  let alerts = await state.api.alerts(state.alertsFilter === "active");
+  let alerts = await state.api.alerts(true); // active alerts only (demo view)
   list.innerHTML = "";
+  el("alerts-count").textContent = alerts.length ? `${alerts.length} active` : "";
   if (alerts.length === 0) {
-    list.innerHTML = '<li class="empty-alerts">No alerts.</li>';
+    list.innerHTML = '<li class="empty-alerts">No active alerts.</li>';
     return;
   }
   // Most severe, then most recent, first.
@@ -388,15 +383,13 @@ function renderStatStrip() {
   const cell = state.cells.find((c) => c.id === cellId);
   const health = state.healthByCell.get(cellId);
   const latest = health?.latest_kpi ?? null;
-  const status = statusInfo(health);
   const breached = new Set((health?.active_alerts || []).map((a) => a.kpi_name));
 
   strip.hidden = false;
   strip.innerHTML = `
     <div class="stat-strip-head">
       <span class="ss-title">${cellId}</span>
-      <span class="ss-sub">${cell?.site ?? ""} · band ${cell?.band ?? "—"} · sector ${cell?.sector ?? "—"}</span>
-      <span class="ss-status"><span class="status-pill ${status.cls}">${status.text}</span></span>
+      <span class="ss-sub">${cell?.site ?? ""} · band ${cell?.band ?? "–"} · sector ${cell?.sector ?? "–"}</span>
     </div>
   `;
   for (const field of KPI_FIELDS) {
@@ -407,7 +400,7 @@ function renderStatStrip() {
     const num = fmtNum(value);
     tile.innerHTML = `
       <span class="stat-tile-label">${field.label}</span>
-      <span class="stat-tile-value${isBreach ? " breach" : ""}">${num}${field.unit && num !== "—" ? `<span class="unit">${field.unit}</span>` : ""}</span>
+      <span class="stat-tile-value${isBreach ? " breach" : ""}">${num}${field.unit && num !== "–" ? `<span class="unit">${field.unit}</span>` : ""}</span>
     `;
     strip.appendChild(tile);
   }
@@ -706,15 +699,15 @@ async function activateStaticMode() {
   const note = el("evidence-note");
   const captured = new Date(meta.captured_at).toLocaleString();
   note.textContent = meta.synthetic
-    ? `Sample data (not a real capture) — generated ${captured}`
-    : `Captured from live deployment — ${captured}`;
+    ? `Sample data (not a real capture); generated ${captured}`
+    : `Captured from live deployment; ${captured}`;
   note.hidden = false;
   await loadEverything();
 }
 
 async function activateLiveMode(baseUrl, apiKey, { save } = { save: true }) {
   const api = buildLiveApi(baseUrl, apiKey);
-  await api.ping(); // throws if unreachable — caller decides how to handle
+  await api.ping(); // throws if unreachable; caller decides how to handle
   state.api = api;
   setModeBadge("live");
   el("mode-live").checked = true;
@@ -769,13 +762,6 @@ function wireSource() {
       await activateStaticMode();
     }
   });
-
-  document.querySelectorAll('input[name="alerts-filter"]').forEach((input) => {
-    input.addEventListener("change", async () => {
-      state.alertsFilter = input.value;
-      await renderAlertsFeed();
-    });
-  });
 }
 
 async function init() {
@@ -794,7 +780,7 @@ async function init() {
       await activateLiveMode(savedBaseUrl, savedApiKey, { save: false });
       return;
     } catch {
-      // Lab account is probably gone — expected long-term; fall through.
+      // Lab account is probably gone; expected long-term; fall through.
     }
   }
   await activateStaticMode();

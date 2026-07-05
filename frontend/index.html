@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CellWatch — RAN Observability</title>
+  <title>CellWatch</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,12 +11,21 @@
     <!-- ---------------------------------------------------------- header -->
     <header class="topbar">
       <div class="brand">
-        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="1.6" fill="currentColor" stroke="none"></circle>
+            <path d="M12 9.6 L9 21"></path>
+            <path d="M12 9.6 L15 21"></path>
+            <path d="M10.1 16.5 L13.9 16.5"></path>
+            <path d="M8.6 5 a5 5 0 0 0 0 7.4"></path>
+            <path d="M15.4 5 a5 5 0 0 1 0 7.4"></path>
+            <path d="M6.2 2.7 a8.4 8.4 0 0 0 0 12"></path>
+            <path d="M17.8 2.7 a8.4 8.4 0 0 1 0 12"></path>
+          </svg>
+        </span>
         <span class="brand-name">CellWatch</span>
         <span class="brand-tag">RAN Observability</span>
-      </div>
-      <div class="topbar-meta">
-        <span id="fleet-summary" class="fleet-summary"></span>
       </div>
     </header>
 
@@ -74,10 +83,7 @@
         <section class="panel alerts-panel">
           <div class="panel-header">
             <h2>Alerts</h2>
-            <div class="alerts-toggle" role="radiogroup" aria-label="Alert filter">
-              <label><input type="radio" name="alerts-filter" value="active" checked> Active</label>
-              <label><input type="radio" name="alerts-filter" value="all"> All</label>
-            </div>
+            <span id="alerts-count" class="panel-subtitle"></span>
           </div>
           <ul id="alerts-feed" class="alert-list alert-feed">
             <li class="loading-row">Loading alerts…</li>
@@ -109,7 +115,7 @@
           <div class="source-modes">
             <label class="source-mode">
               <input type="radio" name="mode" value="static" id="mode-static">
-              <span>Static evidence <em>bundled JSON snapshot — works anywhere, no AWS account</em></span>
+              <span>Static evidence <em>bundled JSON snapshot, works anywhere, no AWS account</em></span>
             </label>
             <label class="source-mode">
               <input type="radio" name="mode" value="live" id="mode-live">
@@ -129,11 +135,11 @@
             <span id="connection-result" class="connection-result"></span>
           </div>
           <p class="source-footnote">
-            Stored only in this browser's localStorage — never committed, never sent anywhere but the URL above.
+            Stored only in this browser's localStorage; never committed, never sent anywhere but the URL above.
           </p>
         </div>
       </details>
-      <span class="footer-credit">CellWatch — CSCI 4149 term project</span>
+      <span class="footer-credit">CellWatch, a CSCI 4149 term project</span>
     </footer>
   </div>
 

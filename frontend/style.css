@@ -1,11 +1,11 @@
-/* CellWatch dashboard — professional light theme.
+/* CellWatch dashboard; professional light theme.
    Brand base is a velvety deep forest green (#1B4A3A); tints/shades below are
    all derived from it. Chart surfaces + categorical series colors come from the
    dataviz skill's validated light-mode palette (references/palette.md), so the
    graphs stay colorblind-safe on this surface. */
 :root {
   /* ---- brand (deep forest green) ---- */
-  --brand:        #1b4a3a;   /* base — velvety dark forest */
+  --brand:        #1b4a3a;   /* base; velvety dark forest */
   --brand-700:    #143728;   /* pressed / darkest ink */
   --brand-500:    #24604b;   /* hover */
   --brand-400:    #2f6b54;   /* lighter accent */
@@ -79,18 +79,12 @@ h2, h3 { margin: 0; font-weight: 600; }
 
 .brand-mark {
   align-self: center;
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
-  background: linear-gradient(150deg, var(--brand-400), var(--brand));
-  box-shadow: 0 0 0 3px var(--brand-tint);
+  display: inline-flex;
+  color: var(--brand);
 }
+.brand-mark svg { width: 24px; height: 24px; display: block; }
 .brand-name { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; color: var(--brand-700); }
 .brand-tag  { font-size: 12.5px; color: var(--text-muted); font-weight: 500; }
-
-.topbar-meta { margin-left: auto; }
-.fleet-summary { font-size: 12.5px; color: var(--text-secondary); }
-.fleet-summary strong { color: var(--text-primary); font-variant-numeric: tabular-nums; }
 
 /* ============================================================ querybar === */
 
@@ -365,7 +359,7 @@ h2, h3 { margin: 0; font-weight: 600; }
 
 .stat-strip {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
   gap: 0;
   background: var(--surface-1);
   border: 1px solid var(--border);
@@ -375,26 +369,25 @@ h2, h3 { margin: 0; font-weight: 600; }
 }
 .stat-strip-head {
   grid-column: 1 / -1;
-  display: flex; align-items: baseline; gap: 10px;
+  display: flex; align-items: baseline; gap: 8px;
   background: var(--surface-1);
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-bottom: 1px solid var(--border);
 }
-.stat-strip-head .ss-title { font-weight: 700; font-variant-numeric: tabular-nums; }
-.stat-strip-head .ss-sub { font-size: 12px; color: var(--text-muted); }
-.stat-strip-head .ss-status { margin-left: auto; }
+.stat-strip-head .ss-title { font-weight: 700; font-size: 13px; font-variant-numeric: tabular-nums; }
+.stat-strip-head .ss-sub { font-size: 11.5px; color: var(--text-muted); }
 .stat-tile {
   background: var(--surface-1);
-  padding: 9px 12px;
+  padding: 7px 10px;
   border-right: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
-.stat-tile-label { display: block; font-size: 11px; color: var(--text-muted); }
+.stat-tile-label { display: block; font-size: 10px; line-height: 1.2; min-height: 2.4em; color: var(--text-muted); }
 .stat-tile-value {
-  display: block; font-size: 16px; font-weight: 600; margin-top: 2px;
+  display: block; font-size: 13.5px; font-weight: 600; margin-top: 1px;
   color: var(--text-primary);
 }
-.stat-tile-value .unit { font-size: 11px; font-weight: 500; color: var(--text-muted); margin-left: 2px; }
+.stat-tile-value .unit { font-size: 10px; font-weight: 500; color: var(--text-muted); margin-left: 2px; }
 .stat-tile-value.breach { color: var(--status-critical); }
 .stat-tile.breach { background: var(--status-critical-wash); }
 
