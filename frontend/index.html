@@ -3,123 +3,137 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CellWatch — RAN Observability Dashboard</title>
+  <title>CellWatch — RAN Observability</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="app">
+    <!-- ---------------------------------------------------------- header -->
     <header class="topbar">
       <div class="brand">
         <span class="brand-mark" aria-hidden="true"></span>
         <span class="brand-name">CellWatch</span>
+        <span class="brand-tag">RAN Observability</span>
       </div>
-
-      <div class="topbar-status">
-        <span id="mode-badge" class="badge badge-muted">loading…</span>
-        <span id="evidence-note" class="evidence-note" hidden></span>
+      <div class="topbar-meta">
+        <span id="fleet-summary" class="fleet-summary"></span>
       </div>
-
-      <button id="settings-toggle" class="btn btn-ghost" type="button" aria-expanded="false" aria-controls="settings-panel">
-        Settings
-      </button>
     </header>
 
-    <section id="settings-panel" class="settings-panel" hidden>
-      <div class="settings-row">
-        <label class="settings-label">
-          <input type="radio" name="mode" value="static" id="mode-static">
-          Static evidence <span class="settings-hint">bundled JSON snapshot, works anywhere, no AWS account needed</span>
-        </label>
-        <label class="settings-label">
-          <input type="radio" name="mode" value="live" id="mode-live">
-          Live API <span class="settings-hint">calls the deployed query API directly from your browser</span>
-        </label>
+    <!-- ------------------------------------------------------- query bar -->
+    <section class="querybar" aria-label="Query">
+      <div class="query-group query-cells">
+        <span class="query-label">Cells</span>
+        <div class="cellselect" id="cellselect">
+          <div class="chips" id="cell-chips"></div>
+          <div class="cellselect-control">
+            <button id="cell-add-btn" class="btn-add" type="button" aria-haspopup="listbox" aria-expanded="false">
+              + Add cell
+            </button>
+            <div id="cell-menu" class="cell-menu" hidden>
+              <input id="cell-search" class="cell-search" type="text" placeholder="Search cells…" autocomplete="off">
+              <div id="cell-cap-note" class="cell-cap-note" hidden></div>
+              <ul id="cell-options" class="cell-options" role="listbox" aria-multiselectable="true"></ul>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="settings-row settings-live-fields">
-        <label class="field">
-          <span class="field-label">Query API base URL</span>
-          <input id="base-url" type="text" placeholder="https://xxxx.execute-api.us-east-1.amazonaws.com/prod" autocomplete="off">
-        </label>
-        <label class="field">
-          <span class="field-label">API key</span>
-          <input id="api-key" type="password" placeholder="x-api-key value" autocomplete="off">
-        </label>
-        <button id="test-connection" class="btn" type="button">Test &amp; save</button>
-        <span id="connection-result" class="connection-result"></span>
+
+      <div class="query-group query-kpis">
+        <span class="query-label">KPIs</span>
+        <div class="kpi-toggles" id="kpi-toggles"></div>
       </div>
-      <p class="settings-footnote">
-        Stored only in this browser's localStorage — never committed, never sent anywhere but the URL above.
-      </p>
     </section>
 
+    <!-- ------------------------------------------------------------ body -->
     <main class="layout">
-      <section class="panel fleet-panel">
-        <div class="panel-header">
-          <h2>Fleet</h2>
-          <span id="fleet-count" class="panel-subtitle"></span>
-        </div>
-        <table class="fleet-table">
-          <thead>
-            <tr>
-              <th scope="col">Cell</th>
-              <th scope="col">Site</th>
-              <th scope="col">Band / Sector</th>
-              <th scope="col">Status</th>
-            </tr>
-          </thead>
-          <tbody id="fleet-rows">
-            <tr><td colspan="4" class="loading-row">Loading fleet…</td></tr>
-          </tbody>
-        </table>
-      </section>
+      <!-- left sidebar: fleet status + alerts feed -->
+      <aside class="sidebar">
+        <section class="panel fleet-panel">
+          <div class="panel-header">
+            <h2>Fleet</h2>
+            <span id="fleet-count" class="panel-subtitle"></span>
+          </div>
+          <div class="fleet-scroll">
+            <table class="fleet-table">
+              <thead>
+                <tr>
+                  <th scope="col">Cell</th>
+                  <th scope="col">Site</th>
+                  <th scope="col">Sec</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody id="fleet-rows">
+                <tr><td colspan="4" class="loading-row">Loading fleet…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
 
-      <section class="panel detail-panel">
-        <div class="panel-header">
-          <h2 id="detail-title">Select a cell</h2>
-          <span id="detail-subtitle" class="panel-subtitle"></span>
-        </div>
-
-        <div id="detail-empty" class="empty-state">Click a cell in the fleet table to see its health and KPI history.</div>
-
-        <div id="detail-content" hidden>
-          <div class="stat-grid" id="stat-grid"></div>
-
-          <div class="chart-block">
-            <div class="chart-controls">
-              <label class="field field-inline">
-                <span class="field-label">KPI</span>
-                <select id="kpi-select"></select>
-              </label>
-            </div>
-            <div class="chart-wrap">
-              <svg id="kpi-chart" viewBox="0 0 640 220" preserveAspectRatio="none" role="img" aria-label="KPI history chart"></svg>
-              <div id="chart-tooltip" class="chart-tooltip" hidden></div>
+        <section class="panel alerts-panel">
+          <div class="panel-header">
+            <h2>Alerts</h2>
+            <div class="alerts-toggle" role="radiogroup" aria-label="Alert filter">
+              <label><input type="radio" name="alerts-filter" value="active" checked> Active</label>
+              <label><input type="radio" name="alerts-filter" value="all"> All</label>
             </div>
           </div>
+          <ul id="alerts-feed" class="alert-list alert-feed">
+            <li class="loading-row">Loading alerts…</li>
+          </ul>
+        </section>
+      </aside>
 
-          <div class="detail-alerts">
-            <h3>Active alerts</h3>
-            <ul id="detail-alert-list" class="alert-list"></ul>
-          </div>
-        </div>
-      </section>
+      <!-- main stage: stat strip (single cell) + chart grid -->
+      <section class="stage">
+        <div id="stat-strip" class="stat-strip" hidden></div>
 
-      <section class="panel alerts-panel">
-        <div class="panel-header">
-          <h2>Alerts feed</h2>
-          <div class="alerts-toggle">
-            <label><input type="radio" name="alerts-filter" value="active" checked> Active</label>
-            <label><input type="radio" name="alerts-filter" value="all"> All</label>
-          </div>
+        <div id="grid-empty" class="empty-state" hidden>
+          Select one or more cells above to plot their KPIs.
         </div>
-        <ul id="alerts-feed" class="alert-list alert-feed">
-          <li class="loading-row">Loading alerts…</li>
-        </ul>
+
+        <div id="chart-grid" class="chart-grid"></div>
       </section>
     </main>
 
+    <!-- --------------------------------------------------- demoted footer -->
     <footer class="footer">
-      CellWatch — CSCI 4149 term project.
+      <div class="footer-source">
+        <span id="mode-badge" class="badge badge-muted">loading…</span>
+        <span id="evidence-note" class="evidence-note" hidden></span>
+      </div>
+      <details id="source-settings" class="source-settings">
+        <summary>Data source</summary>
+        <div class="source-body">
+          <div class="source-modes">
+            <label class="source-mode">
+              <input type="radio" name="mode" value="static" id="mode-static">
+              <span>Static evidence <em>bundled JSON snapshot — works anywhere, no AWS account</em></span>
+            </label>
+            <label class="source-mode">
+              <input type="radio" name="mode" value="live" id="mode-live">
+              <span>Live API <em>calls the deployed query API from your browser</em></span>
+            </label>
+          </div>
+          <div class="source-live-fields">
+            <label class="field">
+              <span class="field-label">Query API base URL</span>
+              <input id="base-url" type="text" placeholder="https://xxxx.execute-api.us-east-1.amazonaws.com/prod" autocomplete="off">
+            </label>
+            <label class="field">
+              <span class="field-label">API key</span>
+              <input id="api-key" type="password" placeholder="x-api-key value" autocomplete="off">
+            </label>
+            <button id="test-connection" class="btn" type="button">Test &amp; save</button>
+            <span id="connection-result" class="connection-result"></span>
+          </div>
+          <p class="source-footnote">
+            Stored only in this browser's localStorage — never committed, never sent anywhere but the URL above.
+          </p>
+        </div>
+      </details>
+      <span class="footer-credit">CellWatch — CSCI 4149 term project</span>
     </footer>
   </div>
 
